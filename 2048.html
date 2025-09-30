@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2048 Game</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background: #faf8ef; margin: 0; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0; }
+        .cell { width: 100px; height: 100px; background: #bbada0; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; }
+        .tile-2 { background: #eee4da; }
+        .tile-4 { background: #ede0c8; }
+        .tile-8 { background: #f2b179; color: white; }
+        .controls { margin: 20px 0; }
+        button { padding: 10px 20px; font-size: 16px; margin: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>2048</h1>
+        <div class="controls">
+            <button onclick="makeMove('up')">⬆️ Вверх</button><br>
+            <button onclick="makeMove('left')">⬅️ Влево</button>
+            <button onclick="makeMove('down')">⬇️ Вниз</button>
+            <button onclick="makeMove('right')">➡️ Вправо</button>
+        </div>
+        <div id="grid" class="grid"></div>
+        <div id="score">Очки: 0</div>
+        <button onclick="newGame()">Новая игра</button>
+    </div>
+
+    <script>
+        let game = { grid: [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]], score: 0 };
+        
+        function newGame() {
+            game = { grid: [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]], score: 0 };
+            addRandomTile();
+            addRandomTile();
+            updateUI();
+        }
+        
+        function addRandomTile() {
+            let empty = [];
+            for(let i=0; i<4; i++) for(let j=0; j<4; j++) if(game.grid[i][j]==0) empty.push([i,j]);
+            if(empty.length) {
+                let [i,j] = empty[Math.floor(Math.random()*empty.length)];
+                game.grid[i][j] = Math.random() < 0.9 ? 2 : 4;
+            }
+        }
+        
+        function updateUI() {
+            document.getElementById('score').textContent = 'Очки: ' + game.score;
+            let grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            for(let i=0; i<4; i++) {
+                for(let j=0; j<4; j++) {
+                    let cell = document.createElement('div');
+                    cell.className = 'cell';
+                    if(game.grid[i][j] > 0) {
+                        cell.textContent = game.grid[i][j];
+                        cell.classList.add('tile-' + game.grid[i][j]);
+                    }
+                    grid.appendChild(cell);
+                }
+            }
+        }
+        
+        function makeMove(direction) {
+            // Упрощенная логика движения
+            alert('Движение: ' + direction + '\nВ реальной версии здесь была бы игровая логика');
+        }
+        
+        // Запуск игры при загрузке
+        newGame();
+    </script>
+</body>
+</html>
+    
